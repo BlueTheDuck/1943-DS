@@ -1,2 +1,5 @@
 .vscode/
 devkitpro-arm/
+/build/
+*.nds
+*.elf
