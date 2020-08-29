@@ -64,7 +64,7 @@ _ADDFILES	:=	-d $(NITRO_FILES)
 # DATA is a list of directories containing binary files embedded using bin2o
 # NITRODATA is the directory where files for NitroFS will be placed
 #---------------------------------------------------------------------------------
-TARGET		:=	1943 Battle of Midway
+TARGET		:=	1943-Battle-of-Midway
 BUILD		:=	build
 SOURCES		:=	source
 INCLUDES	:=	include
