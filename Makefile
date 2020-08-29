@@ -23,7 +23,7 @@ include $(DEVKITARM)/base_rules
 LIBNDS	:=	$(DEVKITPRO)/libnds
 
 GAME_TITLE	    :=	1943
-GAME_SUBTITLE1	:=	The Battle for Midway
+GAME_SUBTITLE1	:=	The Battle of Midway
 GAME_SUBTITLE2	:=	
 GAME_ICON		:=	$(CURDIR)/../icon.bmp
 
@@ -64,7 +64,7 @@ _ADDFILES	:=	-d $(NITRO_FILES)
 # DATA is a list of directories containing binary files embedded using bin2o
 # NITRODATA is the directory where files for NitroFS will be placed
 #---------------------------------------------------------------------------------
-TARGET		:=	$(shell basename $(CURDIR))
+TARGET		:=	1943 Battle of Midway
 BUILD		:=	build
 SOURCES		:=	source
 INCLUDES	:=	include
