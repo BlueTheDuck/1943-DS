@@ -22,9 +22,9 @@ include $(DEVKITARM)/base_rules
 
 LIBNDS	:=	$(DEVKITPRO)/libnds
 
-GAME_TITLE	    :=	Text 1
-GAME_SUBTITLE1	:=	Text 2
-GAME_SUBTITLE2	:=	Text 3
+GAME_TITLE	    :=	1943
+GAME_SUBTITLE1	:=	The Battle for Midway
+GAME_SUBTITLE2	:=	
 GAME_ICON		:=	$(CURDIR)/../icon.bmp
 
 _ADDFILES	:=	-d $(NITRO_FILES)
