@@ -25,3 +25,10 @@ jobs:
       # Use the local GH action to compile the project
       - name: Compile game
         uses: ./.github/actions/build
+      
+      - name: Upload .nds
+        uses: actions/upload-artifact@v2
+        with:
+          name: 1943 Battle for Midway
+          path: ${{ github.workspace }}/1943 Battle of Midway.nds
+          if-no-files-found: warn
