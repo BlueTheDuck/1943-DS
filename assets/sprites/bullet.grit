@@ -1,7 +1,8 @@
 -W3
 -gt
+-gB8
 -gT88FF00
--pn6 # Import only 6 colors
+-pn7
 -ftbin
 -fh!
 -Mw2 -Mh2
