@@ -6,6 +6,7 @@
 #include "config.hpp"
 #include "helper.hpp"
 #include "world.hpp"
+#include "ECS.hpp"
 
 static size_t    FRAME      = 0;
 
@@ -44,12 +45,19 @@ int main(int argc, char *argv[]) {
     NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
 
+    ECS game = ECS();
+
     // Player     player(0, 0, 0);
     Background bg(SCREEN_GAP);
 
     while (1) {
         scanKeys();
         bg.scroll();
+        // player.update();
+        game.handleInput();
+        game.updatePositions();
+        game.updateSprites();
+        game.garbageCollector();
         NF_SpriteOamSet(Screen::TOP);
         NF_SpriteOamSet(Screen::BOT);
         swiWaitForVBlank();
