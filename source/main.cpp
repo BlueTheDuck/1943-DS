@@ -1,14 +1,13 @@
-#include "nf_lib.h"
 #include <nds.h>
+#include "nf_lib.h"
 
 #include <stdio.h>
 
-#include "entity.hpp"
+#include "config.hpp"
 #include "helper.hpp"
-#include "player.hpp"
 #include "world.hpp"
 
-static const u16 SCREEN_GAP = 0;
+static size_t    FRAME      = 0;
 
 int main(int argc, char *argv[]) {
     /* #region Setup */
@@ -24,6 +23,7 @@ int main(int argc, char *argv[]) {
     NF_InitTiledBgSys(Screen::BOT);
 
     NF_InitSpriteBuffers();
+    NF_InitSpriteSys(Screen::TOP);
     NF_InitSpriteSys(Screen::BOT);
 
     /* #endregion */
@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
     NF_LoadSpritePal("sprites/bullet", 1);
 
     // Player
+    NF_VramSpriteGfx(Screen::TOP, 0, 0, false);
+    NF_VramSpritePal(Screen::TOP, 0, 0);
     NF_VramSpriteGfx(Screen::BOT, 0, 0, false);
     NF_VramSpritePal(Screen::BOT, 0, 0);
     // Bullet
@@ -42,17 +44,18 @@ int main(int argc, char *argv[]) {
     NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
 
-    Player     player(0, 0, 0);
+    // Player     player(0, 0, 0);
     Background bg(SCREEN_GAP);
 
     while (1) {
         scanKeys();
         bg.scroll();
-        player.update();
+        NF_SpriteOamSet(Screen::TOP);
         NF_SpriteOamSet(Screen::BOT);
         swiWaitForVBlank();
         oamUpdate(&oamMain);
         oamUpdate(&oamSub);
+        FRAME++;
     }
 
     return 0;
