@@ -11,6 +11,9 @@
 static const u16 SCREEN_GAP = 0;
 
 int main(int argc, char *argv[]) {
+    /* #region Setup */
+    nocashMessage("Initialzing");
+
     NF_SetRootFolder("NITROFS");
 
     NF_Set2D(Screen::TOP, 0);
@@ -23,24 +26,28 @@ int main(int argc, char *argv[]) {
     NF_InitSpriteBuffers();
     NF_InitSpriteSys(Screen::BOT);
 
+    /* #endregion */
+
+    /* #region Sprites */
     NF_LoadSpriteGfx("sprites/super-ace", 0, 32, 32);
     NF_LoadSpritePal("sprites/super-ace", 0);
     NF_LoadSpriteGfx("sprites/bullet", 1, 16, 16);
     NF_LoadSpritePal("sprites/bullet", 1);
 
+    // Player
     NF_VramSpriteGfx(Screen::BOT, 0, 0, false);
     NF_VramSpritePal(Screen::BOT, 0, 0);
+    // Bullet
     NF_VramSpriteGfx(Screen::BOT, 1, 1, false);
     NF_VramSpritePal(Screen::BOT, 1, 1);
+    /* #endregion */
 
-    //Entity bullet(Screen::BOT, ScreenLayer::ONE, 1, 1, 1);
-    Player player(0, 0, 0);
-
-    auto bg = new Background(SCREEN_GAP);
+    Player     player(0, 0, 0);
+    Background bg(SCREEN_GAP);
 
     while (1) {
         scanKeys();
-        bg->scroll();
+        bg.scroll();
         player.update();
         NF_SpriteOamSet(Screen::BOT);
         swiWaitForVBlank();

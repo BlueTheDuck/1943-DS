@@ -41,7 +41,4 @@ void Player::update() {
         this->_y++;
     }
     NF_MoveSprite(_screen, _id, _x, _y);
-
-    // Shoot
-    // TODO: Spawn bullet when KEY_Y is pressed
 }
