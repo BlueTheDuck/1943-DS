@@ -1,11 +1,11 @@
 #ifndef __ECS_H
 #define __ECS_H
 
-#include <nds.h>
 #include "nf_lib.h"
+#include <nds.h>
 
-#include "helper.hpp"
 #include "config.hpp"
+#include "helper.hpp"
 
 class ECS {
   public:
@@ -20,15 +20,36 @@ class ECS {
     /// Counts the amount of frames that passed since shot fired by the player
     size_t timeSinceShoot = 0;
 
+    /// Default constructor
     ECS();
 
-    void   updatePositions();
-    void   updateSprites();
-    void   handleInput();
+    /// Modifies `this->positions` and runs NF_MoveSprite
+    void updatePositions();
+
+    /// Iterates through all entites and changes their sprites
+    /// acordingly (Such as Super Ace flying to the side, or an enemy rotating)
+    void updateSprites();
+
+    /// This function changes sprites, spawns bullets and so
+    /// * It does NOT move Super Ace nor instructs `ECS` to do so
+    /// See `ECS::updatePositions()` for movement
+    void handleInput();
+
+    /// Returns the first valid ID to use for spawning entities
     size_t getNextId();
-    void   spawnEntity(EntityType type, s16 x, s16 y);
+
+    /// Creates a new entity on the next valid ID
+    /// * The screen is determined by `pos.getScreen()`
+    void   spawnEntity(EntityType type, Pos pos);
+
+    /// Looks for entities that can be destroyed
+    /// (Such as bullets outside the screen and so)
     void   garbageCollector();
-    void   moveToScreen(Screen screen);
+
+    /// ! Unimplemented
+    /// Deletes a sprite using `NF_DeleteSprite` and recreates
+    /// it on the opposite screen
+    void   swapScreen(size_t id);
 };
 
 #endif

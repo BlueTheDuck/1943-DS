@@ -71,8 +71,9 @@ void ECS::updateSprites() {
         auto spriteScreen = positions[id].getScreen();
         switch (this->types[id]) {
         case EntityType::SuperAce:
-            //
+            // TODO: Implement "barrel roll" and taking off animations
 
+            // * Flying sprites
             // Super Ace has 2 sprites for left and 2 for right
             // [0-1 2 3-4]
             // 2 being "flying straight"
@@ -104,9 +105,6 @@ void ECS::updateSprites() {
     }
 }
 
-/// This function changes sprites, spawns bullets and so
-/// It does NOT move Super Ace nor instructs `ECS` to do so
-/// See `ECS::updatePositions()` for movement
 void ECS::handleInput() {
     auto down = keysHeld();
     if (down & KEY_LEFT) {
@@ -166,7 +164,6 @@ void ECS::garbageCollector() {
     }
 }
 
-/// Returns the first valid ID to use for spawning entities
 size_t ECS::getNextId() {
     // NOTE: Skip 1, that one is reserved for Super Ace
     for (size_t id = 1; id < 127; id++) {
