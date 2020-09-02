@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
     ECS game = ECS();
 
-    Background bg(SCREEN_GAP);
+    Background bg = Background();
 
     while (1) {
         scanKeys();

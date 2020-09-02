@@ -4,22 +4,28 @@
 #include <nds.h>
 #include "nf_lib.h"
 #include "helper.hpp"
+#include "config.hpp"
+
+/// The game has 2 oceans
+/// `NEAR` is used at the end of the level
+/// to fight the boss
+enum World {
+    FAR, NEAR
+};
 
 /// This class handles the overworld background
 /// Including the gap between screens, the scrolling and generation of random
 /// objects
 class Background {
-    int _screenGap = 0;
+    /// Layer to draw the background
     ScreenLayer layer = ScreenLayer::ZERO;
+    /// What background to draw
+    World world = World::FAR;
 public:
     s16 scrolling = 0;
-    Background(int screenGap) {
-        this->_screenGap = screenGap,
-        NF_LoadTiledBg("bg/ocean", "bg_ocean", 256, 256);
-        NF_CreateTiledBg(Screen::TOP, layer, "bg_ocean");
-        NF_CreateTiledBg(Screen::BOT, layer, "bg_ocean");
-    }
+    Background();
     void scroll();
+    void loadBg();
 };
 
 #endif

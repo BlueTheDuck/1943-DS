@@ -10,7 +10,6 @@
 
 -p   # Include palette
 -pu8 # 8 bits for pal
--pn4 # Only first 4 colors
 
 -ftb # Bin
 -fh!
