@@ -42,4 +42,8 @@ struct Pos {
 };
 
 
+/// Caps a value in the range [min; max]
+s16 cap(s16 val, s16 min, s16 max);
+
+
 #endif

@@ -41,13 +41,14 @@ int main(int argc, char *argv[]) {
     NF_VramSpriteGfx(Screen::BOT, 0, 0, false);
     NF_VramSpritePal(Screen::BOT, 0, 0);
     // Bullet
+    NF_VramSpriteGfx(Screen::TOP, 1, 1, false);
+    NF_VramSpritePal(Screen::TOP, 1, 1);
     NF_VramSpriteGfx(Screen::BOT, 1, 1, false);
     NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
 
     ECS game = ECS();
 
-    // Player     player(0, 0, 0);
     Background bg(SCREEN_GAP);
 
     while (1) {

@@ -31,33 +31,23 @@ void ECS::updatePositions() {
         case EntityType::SuperAce:
             if (keysCurrent() & KEY_LEFT) {
                 positions[id].x -= PSPEED;
-                /* NF_SPRITEOAM[Screen::BOT][id].x -= PSPEED;
-                NF_SPRITEOAM[Screen::TOP][id].x -= PSPEED; */
             }
             if (keysCurrent() & KEY_RIGHT) {
                 positions[id].x += PSPEED;
-                /* NF_SPRITEOAM[Screen::BOT][id].x += PSPEED;
-                NF_SPRITEOAM[Screen::TOP][id].x += PSPEED; */
             }
             if (keysCurrent() & KEY_UP) {
                 positions[id].y -= PSPEED;
-                /* NF_SPRITEOAM[screen[id]][id].y -= PSPEED; */
             }
             if (keysCurrent() & KEY_DOWN) {
                 positions[id].y += PSPEED;
-                /* NF_SPRITEOAM[screen[id]][id].y += PSPEED; */
             }
             // Check world borders
-            positions[id].x = positions[id].x < -3 ? -3 : positions[id].x;
-            positions[id].x = positions[id].x > 228 ? 228 : positions[id].x;
-            positions[id].y = positions[id].y < -3 ? -3 : positions[id].y;
-            positions[id].y = positions[id].y > (192 * 2 + SCREEN_GAP - 32 + 7)
-                ? (192 * 2 + SCREEN_GAP - 32 + 7)
-                : positions[id].y;
+            positions[id].x = cap(positions[id].x, -3, 228);
+            positions[id].y =
+                cap(positions[id].y, -3, (192 * 2 + SCREEN_GAP - 32 + 7));
             break;
         case EntityType::Bullet:
             positions[id].y -= BSPEED;
-            /* NF_SPRITEOAM[Screen::BOT][id].y -= BSPEED; */
             break;
         default:
             break;
@@ -95,7 +85,6 @@ void ECS::updateSprites() {
                 NF_SpriteFrame(spriteScreen, id, 2);
                 break;
             default:
-                sassert(false, "What?");
                 break;
             }
             break;
@@ -117,26 +106,29 @@ void ECS::handleInput() {
 
     if (down & KEY_Y) {
         if (timeSinceShoot > 10) {
-            timeSinceShoot = 0;
-            s16 x          = NF_SPRITEOAM[Screen::BOT][S_ACE_ID].x + 8;
-            s16 y          = NF_SPRITEOAM[Screen::BOT][S_ACE_ID].y;
-            if (positions[S_ACE_ID].getScreen() == Screen::BOT) {
-                y += 192 + SCREEN_GAP;
-            }
-            spawnEntity(EntityType::Bullet, x, y);
-        } else
-            timeSinceShoot++;
+            timeSinceShoot  = 0;
+            Pos bulletSpawn = {
+                .x = positions[S_ACE_ID].x + 8,
+                .y = positions[S_ACE_ID].y,
+            };
+            spawnEntity(EntityType::Bullet, bulletSpawn);
+        }
     }
+    timeSinceShoot++;
 }
 
-void ECS::spawnEntity(EntityType type, s16 x, s16 y) {
+void ECS::spawnEntity(EntityType type, Pos pos) {
     size_t id            = getNextId();
     this->directions[id] = Direction::Forward;
     this->types[id]      = type;
-    this->positions[id]  = {.x = x, .y = y};
+    this->positions[id]  = pos;
     switch (type) {
     case EntityType::Bullet:
-        NF_CreateSprite(Screen::BOT, id, 1, 1, x, y);
+        NF_CreateSprite(pos.getScreen(), id, 1, 1, pos.x, pos.getYMapped());
+        // Hack: Do ⊕ to toggle first (and only) bit and position sprite outside
+        // of the screen
+        NF_CreateSprite(pos.getScreen() ^ 1, id, 1, 1, pos.x, -64);
+        // NF_ShowSprite(pos.getScreen() ^ 1, id, false);
         break;
     case EntityType::SuperAce:
         // TODO: Maybe adding multiplayer?
@@ -154,7 +146,8 @@ void ECS::garbageCollector() {
             continue;
             break;
         case EntityType::Bullet:
-            if (NF_SPRITEOAM[Screen::BOT][id].y < 0) {
+            if (positions[id].y < 0 || positions[id].y > SCREENS_HEIGHT) {
+                NF_DeleteSprite(Screen::TOP, id);
                 NF_DeleteSprite(Screen::BOT, id);
                 types[id] = EntityType::None;
             }
@@ -165,7 +158,7 @@ void ECS::garbageCollector() {
 }
 
 size_t ECS::getNextId() {
-    // NOTE: Skip 1, that one is reserved for Super Ace
+    // NOTE: Skip 0, that one is reserved for Super Ace
     for (size_t id = 1; id < 127; id++) {
         if (types[id] == EntityType::None)
             return id;

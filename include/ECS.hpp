@@ -39,7 +39,8 @@ class ECS {
     size_t getNextId();
 
     /// Creates a new entity on the next valid ID
-    /// * The screen is determined by `pos.getScreen()`
+    /// * The screen the sprite will be visible on is determined by `pos.getScreen()`
+    /// Another equal entity will be created on the other screen
     void   spawnEntity(EntityType type, Pos pos);
 
     /// Looks for entities that can be destroyed

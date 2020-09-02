@@ -16,4 +16,8 @@ static s16 BSPEED = 10;
 // for testing purpouses
 static const u16 SCREEN_GAP = 64;
 
+// Total height of the 2 screens combined
+// with the gap taken into account
+static const u16 SCREENS_HEIGHT = SCREEN_HEIGHT*2+SCREEN_GAP;
+
 #endif

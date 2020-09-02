@@ -18,3 +18,12 @@ s16 Pos::getYMapped() {
         break;
     }
 }
+
+s16 cap(s16 val, s16 min, s16 max) {
+    if (val > max)
+        return max;
+    else if (val > min)
+        return val;
+    else
+        return min;
+}
