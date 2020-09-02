@@ -126,7 +126,7 @@ void ECS::spawnEntity(EntityType type, Pos pos) {
     switch (type) {
     case EntityType::Bullet:
         NF_CreateSprite(pos.getScreen(), id, 1, 1, pos.x, pos.getYMapped());
-        // Hack: Do ⊕ to toggle first (and only) bit and position sprite outside
+        // Hack: Do ⊕ to toggle first (and only) bit, and position sprite outside
         // of the screen
         NF_CreateSprite(pos.getScreen() ^ 1, id, 1, 1, pos.x, -64);
         // NF_ShowSprite(pos.getScreen() ^ 1, id, false);

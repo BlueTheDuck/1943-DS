@@ -1,14 +1,14 @@
-#include <nds.h>
 #include "nf_lib.h"
+#include <nds.h>
 
 #include <stdio.h>
 
+#include "ECS.hpp"
 #include "config.hpp"
 #include "helper.hpp"
 #include "world.hpp"
-#include "ECS.hpp"
 
-static size_t    FRAME      = 0;
+static size_t FRAME = 0;
 
 int main(int argc, char *argv[]) {
     /* #region Setup */
