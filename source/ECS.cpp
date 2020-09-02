@@ -112,6 +112,7 @@ void ECS::handleInput() {
                 .y = positions[S_ACE_ID].y,
             };
             spawnEntity(EntityType::Bullet, bulletSpawn);
+            NF_PlayRawSound(0, 127, 64, false, 0);
         }
     }
     timeSinceShoot++;

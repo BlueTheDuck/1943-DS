@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
     NF_InitSpriteSys(Screen::TOP);
     NF_InitSpriteSys(Screen::BOT);
 
+    NF_InitRawSoundBuffers();
+    soundEnable();
+
     /* #endregion */
 
     /* #region Sprites */
@@ -46,6 +49,8 @@ int main(int argc, char *argv[]) {
     NF_VramSpriteGfx(Screen::BOT, 1, 1, false);
     NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
+
+    NF_LoadRawSound("sound/sound_0", 0, 11025, SoundFormat_8Bit);
 
     ECS game = ECS();
 
