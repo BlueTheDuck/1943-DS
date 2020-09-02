@@ -34,9 +34,10 @@ int main(int argc, char *argv[]) {
 
     /* #region Sprites */
     NF_LoadSpriteGfx("sprites/super-ace", 0, 32, 32);
-    NF_LoadSpritePal("sprites/super-ace", 0);
+    // NF_LoadSpritePal("sprites/super-ace", 0);
+    NF_LoadSpritePal("sprites/sprite-sheet", 0);
     NF_LoadSpriteGfx("sprites/bullet", 1, 16, 16);
-    NF_LoadSpritePal("sprites/bullet", 1);
+    //NF_LoadSpritePal("sprites/bullet", 1);
 
     // Player
     NF_VramSpriteGfx(Screen::TOP, 0, 0, false);
@@ -45,13 +46,15 @@ int main(int argc, char *argv[]) {
     NF_VramSpritePal(Screen::BOT, 0, 0);
     // Bullet
     NF_VramSpriteGfx(Screen::TOP, 1, 1, false);
-    NF_VramSpritePal(Screen::TOP, 1, 1);
+    //NF_VramSpritePal(Screen::TOP, 1, 1);
     NF_VramSpriteGfx(Screen::BOT, 1, 1, false);
-    NF_VramSpritePal(Screen::BOT, 1, 1);
+    //NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
 
+    /* #region Sounds */
     NF_LoadRawSound("sound/sound_0", Sounds::NORMAL_SHOOTING, 11025,
                     SoundFormat_8Bit);
+    /* #endregion */
 
     ECS game = ECS();
 
@@ -60,7 +63,6 @@ int main(int argc, char *argv[]) {
     while (1) {
         scanKeys();
         bg.scroll();
-        // player.update();
         game.handleInput();
         game.updatePositions();
         game.updateSprites();
