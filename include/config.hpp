@@ -11,13 +11,19 @@ static s16 BSPEED = 10;
 
 // Size of the gap between screens
 // in pixles (or lines, as of Wikipedia)
-// NOTE: 64 is not a real value, 
-// MelonDS has this setting and I chose it 
+// NOTE: 64 is not a real value,
+// MelonDS has this setting and I chose it
 // for testing purpouses
 static const u16 SCREEN_GAP = 64;
 
 // Total height of the 2 screens combined
 // with the gap taken into account
-static const u16 SCREENS_HEIGHT = SCREEN_HEIGHT*2+SCREEN_GAP;
+static const u16 SCREENS_HEIGHT = SCREEN_HEIGHT * 2 + SCREEN_GAP;
+
+/// ID of the sounds used
+namespace Sounds {
+    /// Shooting sound when the player has no powerups
+static const u16 NORMAL_SHOOTING = 0;
+} // namespace Sounds
 
 #endif

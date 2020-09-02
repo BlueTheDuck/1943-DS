@@ -50,7 +50,8 @@ int main(int argc, char *argv[]) {
     NF_VramSpritePal(Screen::BOT, 1, 1);
     /* #endregion */
 
-    NF_LoadRawSound("sound/sound_0", 0, 11025, SoundFormat_8Bit);
+    NF_LoadRawSound("sound/sound_0", Sounds::NORMAL_SHOOTING, 11025,
+                    SoundFormat_8Bit);
 
     ECS game = ECS();
 
