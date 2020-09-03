@@ -12,8 +12,6 @@ static size_t FRAME = 0;
 
 int main(int argc, char *argv[]) {
     /* #region Setup */
-    nocashMessage("Initialzing");
-
     NF_SetRootFolder("NITROFS");
 
     NF_Set2D(Screen::TOP, 0);
@@ -35,22 +33,27 @@ int main(int argc, char *argv[]) {
     /* #region Sprites */
     NF_LoadSpriteGfx("sprites/super-ace", Sprites::S_ACE_GFX_ID, 32, 32);
     NF_LoadSpriteGfx("sprites/bullet", Sprites::BULLET_GFX_ID, 16, 16);
+    NF_LoadSpriteGfx("sprites/basic-enemy", Sprites::BASIC_ENEMY_GFX_ID, 16, 16);
 
-    NF_LoadSpritePal("sprites/sprite-sheet", Sprites::PALETTE_ID);
+    NF_LoadSpritePal("sprites/spritesheet-allies", Sprites::ALLIES_PALETTE_ID);
+    NF_LoadSpritePal("sprites/spritesheet-enemies", Sprites::ENEMIES_PALETTE_ID);
 
     // Player
     NF_VramSpriteGfx(Screen::TOP, Sprites::S_ACE_GFX_ID, Sprites::S_ACE_GFX_ID,
-    
                      false);
     NF_VramSpriteGfx(Screen::BOT, Sprites::S_ACE_GFX_ID, Sprites::S_ACE_GFX_ID,
                      false);
-    NF_VramSpritePal(Screen::TOP, Sprites::PALETTE_ID, Sprites::PALETTE_ID);
-    NF_VramSpritePal(Screen::BOT, Sprites::PALETTE_ID, Sprites::PALETTE_ID);
+    NF_VramSpritePal(Screen::TOP, Sprites::ALLIES_PALETTE_ID, Sprites::ALLIES_PALETTE_ID);
+    NF_VramSpritePal(Screen::BOT, Sprites::ALLIES_PALETTE_ID, Sprites::ALLIES_PALETTE_ID);
+    NF_VramSpritePal(Screen::TOP, Sprites::ENEMIES_PALETTE_ID, Sprites::ENEMIES_PALETTE_ID);
+    NF_VramSpritePal(Screen::BOT, Sprites::ENEMIES_PALETTE_ID, Sprites::ENEMIES_PALETTE_ID);
     // Bullet
     NF_VramSpriteGfx(Screen::TOP, Sprites::BULLET_GFX_ID,
                      Sprites::BULLET_GFX_ID, false);
     NF_VramSpriteGfx(Screen::BOT, Sprites::BULLET_GFX_ID,
                      Sprites::BULLET_GFX_ID, false);
+    NF_VramSpriteGfx(Screen::BOT, Sprites::BASIC_ENEMY_GFX_ID,
+                     Sprites::BASIC_ENEMY_GFX_ID, false);
     /* #endregion */
 
     /* #region Sounds */

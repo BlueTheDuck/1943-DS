@@ -126,11 +126,11 @@ void ECS::spawnEntity(EntityType type, Pos pos) {
     switch (type) {
     case EntityType::Bullet:
         NF_CreateSprite(pos.getScreen(), id, Sprites::BULLET_GFX_ID,
-                        Sprites::PALETTE_ID, pos.x, pos.getYMapped());
+                        Sprites::ALLIES_PALETTE_ID, pos.x, pos.getYMapped());
         // Hack: Do ⊕ to toggle first (and only) bit, and position sprite
         // outside of the screen
         NF_CreateSprite(pos.getScreen() ^ 1, id, Sprites::BULLET_GFX_ID,
-                        Sprites::PALETTE_ID, pos.x, -64);
+                        Sprites::ALLIES_PALETTE_ID, pos.x, -64);
         // NF_ShowSprite(pos.getScreen() ^ 1, id, false);
         break;
     case EntityType::SuperAce:

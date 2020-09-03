@@ -28,12 +28,16 @@ const u16 NORMAL_SHOOTING = 0;
 
 /// IDs of the sprites used
 namespace Sprites {
-/// ID of the palette used by all the sprites in game
-const u8 PALETTE_ID = 0;
+/// ID of the palette used by all the allies sprites in game
+const u8 ALLIES_PALETTE_ID = 0;
+/// ID of the palette used by all the enemies sprites in game
+const u8 ENEMIES_PALETTE_ID = 1;
 /// Super Ace gfx
 const u16 S_ACE_GFX_ID = 0;
 /// Basic bullet gfx
 const u16 BULLET_GFX_ID = 1;
+/// Basic enemy gfx
+const u16 BASIC_ENEMY_GFX_ID = 2;
 } // namespace Sprites
 
 #endif
