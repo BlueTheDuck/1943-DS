@@ -6,6 +6,7 @@ Screen Pos::getScreen() {
         return Screen::TOP;
     else if (y > 192 + SCREEN_GAP / 2)
         return Screen::BOT;
+    __unreachable();
 }
 
 s16 Pos::getYMapped() {
@@ -17,6 +18,7 @@ s16 Pos::getYMapped() {
         return y - 192 - SCREEN_GAP;
         break;
     }
+    __unreachable();
 }
 
 s16 cap(s16 val, s16 min, s16 max) {

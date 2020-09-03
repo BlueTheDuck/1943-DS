@@ -33,22 +33,24 @@ int main(int argc, char *argv[]) {
     /* #endregion */
 
     /* #region Sprites */
-    NF_LoadSpriteGfx("sprites/super-ace", 0, 32, 32);
-    // NF_LoadSpritePal("sprites/super-ace", 0);
-    NF_LoadSpritePal("sprites/sprite-sheet", 0);
-    NF_LoadSpriteGfx("sprites/bullet", 1, 16, 16);
-    //NF_LoadSpritePal("sprites/bullet", 1);
+    NF_LoadSpriteGfx("sprites/super-ace", Sprites::S_ACE_GFX_ID, 32, 32);
+    NF_LoadSpriteGfx("sprites/bullet", Sprites::BULLET_GFX_ID, 16, 16);
+
+    NF_LoadSpritePal("sprites/sprite-sheet", Sprites::PALETTE_ID);
 
     // Player
-    NF_VramSpriteGfx(Screen::TOP, 0, 0, false);
-    NF_VramSpritePal(Screen::TOP, 0, 0);
-    NF_VramSpriteGfx(Screen::BOT, 0, 0, false);
-    NF_VramSpritePal(Screen::BOT, 0, 0);
+    NF_VramSpriteGfx(Screen::TOP, Sprites::S_ACE_GFX_ID, Sprites::S_ACE_GFX_ID,
+    
+                     false);
+    NF_VramSpriteGfx(Screen::BOT, Sprites::S_ACE_GFX_ID, Sprites::S_ACE_GFX_ID,
+                     false);
+    NF_VramSpritePal(Screen::TOP, Sprites::PALETTE_ID, Sprites::PALETTE_ID);
+    NF_VramSpritePal(Screen::BOT, Sprites::PALETTE_ID, Sprites::PALETTE_ID);
     // Bullet
-    NF_VramSpriteGfx(Screen::TOP, 1, 1, false);
-    //NF_VramSpritePal(Screen::TOP, 1, 1);
-    NF_VramSpriteGfx(Screen::BOT, 1, 1, false);
-    //NF_VramSpritePal(Screen::BOT, 1, 1);
+    NF_VramSpriteGfx(Screen::TOP, Sprites::BULLET_GFX_ID,
+                     Sprites::BULLET_GFX_ID, false);
+    NF_VramSpriteGfx(Screen::BOT, Sprites::BULLET_GFX_ID,
+                     Sprites::BULLET_GFX_ID, false);
     /* #endregion */
 
     /* #region Sounds */

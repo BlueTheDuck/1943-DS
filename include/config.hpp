@@ -4,26 +4,36 @@
 #include <nds.h>
 
 // Player speed in pixels per frame
-static s16 PSPEED = 3;
+const s16 PSPEED = 3;
 
 // Bullet speed in ppf
-static s16 BSPEED = 10;
+const s16 BSPEED = 10;
 
 // Size of the gap between screens
 // in pixles (or lines, as of Wikipedia)
 // NOTE: 64 is not a real value,
 // MelonDS has this setting and I chose it
 // for testing purpouses
-static const u16 SCREEN_GAP = 64;
+const u16 SCREEN_GAP = 64;
 
 // Total height of the 2 screens combined
 // with the gap taken into account
-static const u16 SCREENS_HEIGHT = SCREEN_HEIGHT * 2 + SCREEN_GAP;
+const u16 SCREENS_HEIGHT = SCREEN_HEIGHT * 2 + SCREEN_GAP;
 
 /// ID of the sounds used
 namespace Sounds {
-    /// Shooting sound when the player has no powerups
-static const u16 NORMAL_SHOOTING = 0;
+/// Shooting sound when the player has no powerups
+const u16 NORMAL_SHOOTING = 0;
 } // namespace Sounds
+
+/// IDs of the sprites used
+namespace Sprites {
+/// ID of the palette used by all the sprites in game
+const u8 PALETTE_ID = 0;
+/// Super Ace gfx
+const u16 S_ACE_GFX_ID = 0;
+/// Basic bullet gfx
+const u16 BULLET_GFX_ID = 1;
+} // namespace Sprites
 
 #endif

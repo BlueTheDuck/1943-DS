@@ -47,10 +47,6 @@ class ECS {
     /// (Such as bullets outside the screen and so)
     void   garbageCollector();
 
-    /// ! Unimplemented
-    /// Deletes a sprite using `NF_DeleteSprite` and recreates
-    /// it on the opposite screen
-    void   swapScreen(size_t id);
 };
 
 #endif
