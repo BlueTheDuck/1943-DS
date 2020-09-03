@@ -4,3 +4,4 @@ devkitpro-arm/
 *.nds
 *.elf
 *.bin
+*.wav

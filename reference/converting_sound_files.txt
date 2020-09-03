@@ -1,0 +1,2 @@
+
+sox <file>.wav -b <bits=8> -e signed -r <11025/22050> <out>.raw
