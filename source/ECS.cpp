@@ -25,6 +25,71 @@ ECS::ECS() {
     // NF_ShowSprite(Screen::TOP, S_ACE_ID, false);
 }
 
+size_t ECS::getNextId() {
+    // NOTE: Skip 0, that one is reserved for Super Ace
+    for (size_t id = 1; id < 127; id++) {
+        if (types[id] == EntityType::None)
+            return id;
+    }
+    sassert(false, "Engine ran out of IDs");
+    return -1;
+}
+
+void ECS::spawnEntity(EntityType type, Pos pos) {
+    size_t id            = getNextId();
+    this->directions[id] = Direction::Forward;
+    this->types[id]      = type;
+    this->positions[id]  = pos;
+    switch (type) {
+    case EntityType::Bullet:
+        NF_CreateSprite(pos.getScreen(), id, Sprites::BULLET_GFX_ID,
+                        Sprites::ALLIES_PALETTE_ID, pos.x, pos.getYMapped());
+        // Hack: Do ⊕ to toggle first (and only) bit, and position sprite
+        // outside of the screen
+        NF_CreateSprite(pos.getScreen() ^ 1, id, Sprites::BULLET_GFX_ID,
+                        Sprites::ALLIES_PALETTE_ID, pos.x, -64);
+        // NF_ShowSprite(pos.getScreen() ^ 1, id, false);
+        break;
+    case EntityType::Enemy:
+        NF_CreateSprite(pos.getScreen(), id, Sprites::BASIC_ENEMY_GFX_ID,
+                        Sprites::ENEMIES_PALETTE_ID, pos.x, pos.getYMapped());
+        NF_CreateSprite(pos.getScreen() ^ 1, id, Sprites::BASIC_ENEMY_GFX_ID,
+                        Sprites::ENEMIES_PALETTE_ID, pos.x, -64);
+        break;
+    case EntityType::SuperAce:
+        // TODO: Maybe adding multiplayer?
+        sassert(false, "Can't create another player!");
+    default:
+        nocashMessage("Unknown entity type?");
+        sassert(false, "Unknown entity type");
+        break;
+    }
+}
+
+void ECS::handleInput() {
+    auto down = keysHeld();
+    if (down & KEY_LEFT) {
+        directions[S_ACE_ID] = Direction::Left;
+    } else if (down & KEY_RIGHT) {
+        directions[S_ACE_ID] = Direction::Right;
+    } else {
+        directions[S_ACE_ID] = Direction::Forward;
+    }
+
+    if (down & KEY_Y) {
+        if (timeSinceShoot > 10) {
+            timeSinceShoot  = 0;
+            Pos bulletSpawn = {
+                .x = static_cast<s16>(positions[S_ACE_ID].x + 8),
+                .y = positions[S_ACE_ID].y,
+            };
+            spawnEntity(EntityType::Bullet, bulletSpawn);
+            NF_PlayRawSound(Sounds::NORMAL_SHOOTING, 127, 64, false, 0);
+        }
+    }
+    timeSinceShoot++;
+}
+
 void ECS::updatePositions() {
     for (int id = 0; id < 127; id++) {
         switch (this->types[id]) {
@@ -56,6 +121,7 @@ void ECS::updatePositions() {
                       positions[id].getYMapped());
     }
 }
+
 void ECS::updateSprites() {
     for (size_t id = 0; id < 127; id++) {
         auto spriteScreen = positions[id].getScreen();
@@ -70,15 +136,15 @@ void ECS::updateSprites() {
             // 1 and 3 are for smoothing the transition
             switch (directions[id]) {
             case Direction::Left:
-                if (NF_SPRITEOAM[spriteScreen][id].frame <= 1) {
+                if (NF_SPRITEOAM[spriteScreen][id].frame <= 1)
                     NF_SpriteFrame(spriteScreen, id, 0);
-                } else
+                else
                     NF_SpriteFrame(spriteScreen, id, 1);
                 break;
             case Direction::Right:
-                if (NF_SPRITEOAM[spriteScreen][id].frame >= 3) {
+                if (NF_SPRITEOAM[spriteScreen][id].frame >= 3)
                     NF_SpriteFrame(spriteScreen, id, 4);
-                } else
+                else
                     NF_SpriteFrame(spriteScreen, id, 3);
                 break;
             case Direction::Forward:
@@ -91,53 +157,6 @@ void ECS::updateSprites() {
         default:
             break;
         }
-    }
-}
-
-void ECS::handleInput() {
-    auto down = keysHeld();
-    if (down & KEY_LEFT) {
-        directions[S_ACE_ID] = Direction::Left;
-    } else if (down & KEY_RIGHT) {
-        directions[S_ACE_ID] = Direction::Right;
-    } else {
-        directions[S_ACE_ID] = Direction::Forward;
-    }
-
-    if (down & KEY_Y) {
-        if (timeSinceShoot > 10) {
-            timeSinceShoot  = 0;
-            Pos bulletSpawn = {
-                .x = static_cast<s16>(positions[S_ACE_ID].x + 8),
-                .y = positions[S_ACE_ID].y,
-            };
-            spawnEntity(EntityType::Bullet, bulletSpawn);
-            NF_PlayRawSound(Sounds::NORMAL_SHOOTING, 127, 64, false, 0);
-        }
-    }
-    timeSinceShoot++;
-}
-
-void ECS::spawnEntity(EntityType type, Pos pos) {
-    size_t id            = getNextId();
-    this->directions[id] = Direction::Forward;
-    this->types[id]      = type;
-    this->positions[id]  = pos;
-    switch (type) {
-    case EntityType::Bullet:
-        NF_CreateSprite(pos.getScreen(), id, Sprites::BULLET_GFX_ID,
-                        Sprites::ALLIES_PALETTE_ID, pos.x, pos.getYMapped());
-        // Hack: Do ⊕ to toggle first (and only) bit, and position sprite
-        // outside of the screen
-        NF_CreateSprite(pos.getScreen() ^ 1, id, Sprites::BULLET_GFX_ID,
-                        Sprites::ALLIES_PALETTE_ID, pos.x, -64);
-        // NF_ShowSprite(pos.getScreen() ^ 1, id, false);
-        break;
-    case EntityType::SuperAce:
-        // TODO: Maybe adding multiplayer?
-        sassert(false, "Can't create another player!");
-    default:
-        break;
     }
 }
 
@@ -160,12 +179,15 @@ void ECS::garbageCollector() {
     }
 }
 
-size_t ECS::getNextId() {
-    // NOTE: Skip 0, that one is reserved for Super Ace
-    for (size_t id = 1; id < 127; id++) {
-        if (types[id] == EntityType::None)
-            return id;
+void ECS::timelineHandler() {
+    int rn = rand() % 100;
+    if (rn > 70) {
+        Pos pos = {
+            .x = rand() % 256,
+            .y = rand() % 192,
+        };
+        if (getNextId() < 3)
+            spawnEntity(EntityType::Enemy, pos);
+        // spawnEntity();
     }
-    sassert(false, "Engine ran out of IDs");
-    return -1;
 }
