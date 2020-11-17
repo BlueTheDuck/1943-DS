@@ -97,7 +97,7 @@ LIBS	:= -lnflib -lfilesystem -lfat -lnds9
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBNDS) $(CURDIR)/nflib
+LIBDIRS	:=	$(LIBNDS) $(CURDIR)/nds_nflib/nflib
 
 
 #---------------------------------------------------------------------------------
@@ -158,6 +158,7 @@ endif
 
 #---------------------------------------------------------------------------------
 $(BUILD):
+	$(MAKE) -C nds_nflib/nflib build
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
@@ -165,6 +166,7 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).arm9
+	$(MAKE) -C nds_nflib/nflib clean
 
 #---------------------------------------------------------------------------------
 else
