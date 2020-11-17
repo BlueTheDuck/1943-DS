@@ -26,7 +26,10 @@ enum EntityType {
     /// The player
     SuperAce,
     /// Flying bullet
-    Bullet
+    Bullet,
+    /// Kind of enemy
+    /// TODO: There are many different enemies and AIs. Maybe add more types?
+    Enemy
 };
 
 /// XY of an entity in game
